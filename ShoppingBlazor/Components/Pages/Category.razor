@@ -1,0 +1,99 @@
+﻿@page "/category"
+@rendermode InteractiveServer
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <label>نام</label>
+            <input type="text" class="form-control" placeholder="نام دسته بندی" aria-label="name">
+        </div>
+        <div class="col">
+            <label>گروه</label>
+            <div class="dropdown">
+                <button class="container-fluid btn btn-secondary dropdown-toggle text-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    انتخاب
+                </button>
+                <ul class="dropdown-menu dropdown-menu-lg-start">
+                    <li><a class="dropdown-item text-end" href="#">گروه اول</a></li>
+                    <li><a class="dropdown-item text-end" href="#">گروه دوم</a></li>
+                    <li><a class="dropdown-item text-end" href="#">گروه سوم</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-primary btn-sm">جستجو</button>
+        <button type="button" class="btn btn-secondary btn-sm">نمایش همه</button>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">شناسه</th>
+                    <th scope="col">
+                        <div class="input-group mb-3">
+                            نام دسته بندی
+                            <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            <button class="btn btn-outline-secondary bi bi-funnel-fill" type="button" id="button-addon1"></button>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="input-group mb-3">
+                            نام گروه
+                            <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary bi bi-funnel-fill" type="button" id="button-addon2"></button>
+                        </div>
+                    </th>
+                    <th scope="col">عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex">
+        <button type="button" class="btn btn-primary bi-plus-lg"></button>
+        <button type="button" class="btn btn-secondary bi bi-file-earmark-spreadsheet"></button>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-md-end">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+@code {
+
+}
