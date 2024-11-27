@@ -1,4 +1,5 @@
 ﻿@page "/stuff"
+@rendermode InteractiveServer
 
 <h3>کالاها</h3>
 
@@ -87,7 +88,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                 <td>1</td>
                 <td>محصول A</td>
                 <td>بسته کوچک</td>
@@ -162,11 +163,19 @@
         </nav>
 
         <div class="order-md-1 d-flex gap-2">
-            <button type="button" class="btn btn-primary bi-plus-lg rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3"></button>
+            <button type="button" class="btn btn-primary bi-plus-lg rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
             <button type="button" class="btn btn-secondary bi bi-file-earmark-spreadsheet rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3"></button>
         </div>
     </div>
 </div>
+
+@* <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> *@
+@*     <div class="modal-dialog"> *@
+@*         <div class="modal-content"> *@
+@*             <AddStuff></AddStuff> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 
 @code {
 
