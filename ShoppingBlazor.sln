@@ -5,6 +5,12 @@ VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor", "ShoppingBlazor\ShoppingBlazor.csproj", "{64A599B7-088E-441D-952C-223FA68AA63F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Services", "ShoppingBlazor.Services\ShoppingBlazor.Services.csproj", "{914CC6A1-0F9E-41AC-BCD5-170E3B34DD58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Entities", "ShoppingBlazor.Entities\ShoppingBlazor.Entities.csproj", "{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Common", "ShoppingBlazor.Common\ShoppingBlazor.Common.csproj", "{6F536506-8028-4276-823B-8A05E517949E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{64A599B7-088E-441D-952C-223FA68AA63F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A599B7-088E-441D-952C-223FA68AA63F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A599B7-088E-441D-952C-223FA68AA63F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914CC6A1-0F9E-41AC-BCD5-170E3B34DD58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914CC6A1-0F9E-41AC-BCD5-170E3B34DD58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914CC6A1-0F9E-41AC-BCD5-170E3B34DD58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914CC6A1-0F9E-41AC-BCD5-170E3B34DD58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F536506-8028-4276-823B-8A05E517949E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F536506-8028-4276-823B-8A05E517949E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F536506-8028-4276-823B-8A05E517949E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F536506-8028-4276-823B-8A05E517949E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
