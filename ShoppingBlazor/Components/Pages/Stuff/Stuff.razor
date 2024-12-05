@@ -1,4 +1,10 @@
 ﻿@page "/stuff"
+@using Mapster
+@using ShoppingBlazor.Infrastructure.Extensions
+@using ShoppingBlazor.Services.Products
+@using ShoppingBlazor.Services.Products.Dtos
+@using ShoppingBlazor.Services.Products.Paginations
+@inject IProductService ProductService
 @rendermode InteractiveServer
 
 <h3>کالاها</h3>
@@ -43,9 +49,11 @@
         </div>
     </div>
 
-    <div class="row shadow rounded-4 table-responsive">
-        <table class="table table-striped table-hover rounded-3 align-middle text-nowrap">
-            <thead>
+    @if (Stuffs.Any())
+    {
+        <div class="row shadow rounded-4 table-responsive">
+            <table class="table table-striped table-hover rounded-3 align-middle text-nowrap">
+                <thead>
                 <tr>
                     <th scope="col" class="col-1">شناسه</th>
                     <th scope="col">نام کالا</th>
@@ -58,81 +66,58 @@
                     <th scope="col">تاریخ پایان</th>
                     <th scope="col" class="col-1">عملیات</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>محصول A</td>
-                    <td>بسته کوچک</td>
-                    <td>برند ایکس</td>
-                    <td>تأمین کننده اول</td>
-                    <td>120</td>
-                    <td>50,000 تومان</td>
-                    <td>1402/09/01</td>
-                    <td>1402/10/01</td>
-                    <td class="d-flex gap-2">
-                        <button class="rounded-3 btn btn-sm btn-warning bi bi-pencil-fill"></button>
-                        <button class="rounded-3 btn btn-sm btn-danger bi bi-trash-fill"></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>محصول B</td>
-                    <td>بسته متوسط</td>
-                    <td>برند وای</td>
-                    <td>تأمین کننده دوم</td>
-                    <td>75</td>
-                    <td>80,000 تومان</td>
-                    <td>1402/08/15</td>
-                    <td>1402/09/15</td>
-                    <td>
-                        <button class="rounded-3 btn btn-sm btn-warning bi bi-pencil-fill"></button>
-                        <button class="rounded-3 btn btn-sm btn-danger bi bi-trash-fill"></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>محصول C</td>
-                    <td>بسته بزرگ</td>
-                    <td>برند زد</td>
-                    <td>تأمین کننده سوم</td>
-                    <td>200</td>
-                    <td>120,000 تومان</td>
-                    <td>1402/07/10</td>
-                    <td>1402/08/10</td>
-                    <td>
-                        <button class="rounded-3 btn btn-sm btn-warning bi bi-pencil-fill"></button>
-                        <button class="rounded-3 btn btn-sm btn-danger bi bi-trash-fill"></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                @foreach (var stuff in Stuffs)
+                {
+                    <tr>
+                        <td>@stuff.Id</td>
+                        <td>@stuff.Name</td>
+                        <td>@stuff.CategoryName</td>
+                        <td>@stuff.BrandName</td>
+                        <td>@stuff.SupplierName</td>
+                        <td>@stuff.Stock</td>
+                        <td>@stuff.Price.ToRial()</td>
+                        <td>@stuff.StartDate.ToPersianDateTime()</td>
+                        <td>@stuff.EnDateTime.ToPersianDateTime()</td>
+                        <td class="d-flex gap-2">
+                            <button class="rounded-3 btn btn-sm btn-warning bi bi-pencil-fill" data-bs-toggle="modal" data-bs-target="#editStuffDialog" @onclick="() => Edit(stuff)"></button>
+                            <button class="rounded-3 btn btn-sm btn-danger bi bi-trash-fill"></button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
 
     <div class="d-md-flex justify-content-between align-items-center">
-        <nav aria-label="Page navigation example" class="order-md-2">
-            <ul class="pagination justify-content-start">
-                <li class="page-item">
-                    <a class="page-link rounded-end-3" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link rounded-start-3" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        @if (Stuffs.Any())
+        {
+            <nav aria-label="Page navigation example" class="order-md-2">
+                <ul class="pagination justify-content-start">
+                    <li class="page-item">
+                        <a class="page-link rounded-end-3" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link rounded-start-3" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
 
         <div class="order-md-1 d-flex gap-2">
             <button type="button" class="btn btn-primary bi-plus-lg rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3" data-bs-toggle="modal" data-bs-target="#addStuffDialog"></button>
@@ -141,23 +126,50 @@
     </div>
 </div>
 
-<div class="modal fade g-3" id="addStuffDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade g-3" id="addStuffDialog" tabindex="-1" aria-hidden="true">
     <div class="modal-xl modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-4">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">افزودن کالا</h5>
-            </div>
             <div class="modal-body">
-                <AddStuff></AddStuff>
-            </div>
-            <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-secondary bi bi-x-circle" data-bs-dismiss="modal">بستن</button>
-                <button type="button" class="btn btn-primary bi bi-floppy2-fill">افزودن</button>
+                <StuffAdd ></StuffAdd>
             </div>
         </div>
     </div>
 </div>
 
-@code {
+@* <div class="modal fade g-3" id="editStuffDialog" tabindex="-1" aria-hidden="true"> *@
+@*     <div class="modal-xl modal-dialog modal-dialog-centered modal-dialog-scrollable rounded-4"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title">ویرایش کالا</h5> *@
+@*             </div> *@
+@*             <div class="modal-body"> *@
+@*                 @if (SelectedStuffForEdit is not null) *@
+@*                 { *@
+@*                     <StuffEditor StuffId="@SelectedStuffForEdit.Id"></StuffEditor> *@
+@*                 } *@
+@*             </div> *@
+@*             <div class="modal-footer justify-content-start"> *@
+@*                 <button type="button" class="btn btn-secondary bi bi-x-circle" data-bs-dismiss="modal">بستن</button> *@
+@*                 <button type="button" class="btn btn-primary bi bi-floppy2-fill">ویرایش</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 
+@code {
+    public IList<StuffDto> Stuffs { get; set; } = [];
+
+    public EditStuffRequest? SelectedStuffForEdit { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var stuffs = ProductService.Stuffs(new StuffPagination());
+
+        if (!stuffs.IsError) Stuffs = stuffs.Value;
+    }
+
+    public void Edit(StuffDto stuff)
+    {
+        SelectedStuffForEdit = stuff.Adapt<EditStuffRequest>();
+    }
 }

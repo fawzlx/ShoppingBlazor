@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using ShoppingBlazor.Services.Common;
 
 namespace ShoppingBlazor.Services.Products.Dtos;
@@ -13,9 +14,9 @@ public class AddStuffRequest : BaseRequest
     public string? SupplierName { get; set; }
     [EmailAddress]
     public string? SupplierEmail { get; set; }
-    public required uint Stock { get; set; }
+    public required int Stock { get; set; }
     [Range(5000, 1_000_000_000)]
-    public required uint Price { get; set; }
+    public required int Price { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EnDateTime { get; set; }
     [MaxLength(50)]
@@ -23,4 +24,6 @@ public class AddStuffRequest : BaseRequest
 
     [MaxLength(50)]
     public string? Catalog { get; set; }
+
+    public required IEnumerable<Color> ColorOptions { get; set; }
 }

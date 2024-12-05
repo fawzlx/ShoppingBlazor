@@ -1,17 +1,22 @@
 ﻿using ErrorOr;
 using Mapster;
+using ShoppingBlazor.Databases.Repositories;
 using ShoppingBlazor.Entities.Products;
 using ShoppingBlazor.Infrastructure.DI;
-using ShoppingBlazor.Services.Products.Daos;
 using ShoppingBlazor.Services.Products.Dtos;
 using ShoppingBlazor.Services.Products.Paginations;
 
 namespace ShoppingBlazor.Services.Products;
 
-public class ProductService(StuffDao stuffDao, BrandDao brandDao, CategoryDao categoryDao) : IProductService, IScopedService
+public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> brandDao, IRepository<Category> categoryDao) : IProductService, IScopedService
 {
     public ErrorOr<IList<StuffDto>> Stuffs(StuffPagination request)
     {
+        // return new List<StuffDto>
+        // {
+        //     new StuffDto(1, "sdf", "sdfs", "sdfs", null, 8, 1250000, DateTime.Now, DateTime.Now.AddDays(15))
+        // };
+
         var stuffs = stuffDao.Read();
 
         var filtersStuff = request.Apply(stuffs);

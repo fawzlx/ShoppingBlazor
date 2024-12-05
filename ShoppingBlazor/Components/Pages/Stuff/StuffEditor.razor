@@ -1,0 +1,110 @@
+﻿@using ShoppingBlazor.Services.Products.Dtos
+@rendermode InteractiveServer
+
+<EditForm Model="Stuff" class="row d-grid d-lg-flex" OnInvalidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="col-lg-4">
+        <label for="name" class="form-label">نام کالا</label>
+        <InputText @bind-value="Stuff!.Name" class="form-control mb-2 rounded-3" id="name" />
+        <ValidationMessage For="@(() => Stuff!.Name)" />
+    </div>
+    <div class="col-lg-4">
+        <label for="categoryId" class="form-label">نام دسته بندی</label>
+        <InputSelect @bind-value="Stuff!.CategoryId" id="categoryId" class="form-control mb-2 rounded-3">
+            <option value="1" selected>انتخاب کنید...</option>
+            <option value="2">دسته بندی اول</option>
+            <option value="3">دسته بندی دوم</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => Stuff.CategoryId)" />
+    </div>
+    <div class="col-lg-4">
+        <label for="brandId" class="form-label">نام برند</label>
+        <InputSelect @bind-value="Stuff!.BrandId" id="brandId" class="form-control mb-2 rounded-3">
+            <option value="1" selected>انتخاب کنید...</option>
+            <option value="2">برند اول</option>
+            <option value="3">برند دوم</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => Stuff.BrandId)" />
+    </div>
+    <div class="col-lg-4">
+        <label for="producerName" class="form-label">نام تأمین کننده</label>
+        <InputText @bind-value="Stuff!.SupplierName" class="form-control mb-2 rounded-3" id="producerName" />
+        <ValidationMessage For="@(() => Stuff.SupplierName)" />
+    </div>
+    <div class="col-lg-4">
+        <label for="number" class="form-label">موجودی</label>
+        <InputNumber @bind-value="Stuff!.Stock" class="form-control mb-2 rounded-3" id="number" />
+        <ValidationMessage For="@(() => Stuff.Stock)" />
+    </div>
+    <div class="col-lg-4">
+        <label for="amount" class="form-label mb-2 rounded-3">قیمت</label>
+        <div class="input-group">
+            <span class="input-group-text">ريال</span>
+            <InputNumber @bind-value="Stuff!.Price" class="form-control" id="amount" aria-label="Amount (to the nearest dollar)" />
+            <ValidationMessage For="@(() => Stuff.Price)" />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <label for="producerEmail" class="form-label">ایمیل تأمین کننده</label>
+        <InputText @bind-value="Stuff!.SupplierEmail" class="form-control mb-2 rounded-3" id="producerEmail" />
+        <ValidationMessage For="@(() => Stuff.SupplierEmail)" />
+    </div>
+    <div class="col-lg-4">
+        <label class="form-label">تاریخ نمایش</label>
+        <div class="input-group">
+            <span class="input-group-text">از</span>
+            <InputDate @bind-value="Stuff.StartDate" aria-label="First name" class="form-control" />
+            <ValidationMessage For="@(() => Stuff.StartDate)" />
+            <span class="input-group-text">تا</span>
+            <InputDate @bind-value="Stuff.EnDateTime" aria-label="Last name" class="form-control" />
+            <ValidationMessage For="@(() => Stuff.EnDateTime)" />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <label for="number" class="form-label mb-2 rounded-3">رنگ بندی محصول</label>
+        <div class="order-md-1 d-flex gap-2">
+            <button type="button" class="form-control btn btn-primary bi-plus-lg rounded-3 d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-2"></button>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div>
+            <label for="photos" class="form-label">تصویر کالا</label>
+            <InputFile @bind-value="Stuff.Image" class="form-control mb-2 rounded-3" id="photos" multiple />
+            <ValidationMessage For="@(() => Stuff.Image)" />
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div>
+            <label for="catalogs" class="form-label">کاتالوگ کالا</label>
+            <InputFile @bind-value="Stuff.Catalog" class="form-control mb-2 rounded-3" id="catalogs" multiple />
+            <ValidationMessage For="@(() => Stuff.Catalog)" />
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public AddStuffRequest? Stuff { get; set; }
+
+    [Parameter] public EventCallback<AddStuffRequest> OnConfirm { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Stuff ??= new AddStuffRequest
+            {
+                Name = string.Empty,
+                CategoryId = 0,
+                BrandId = 0,
+                Stock = 0,
+                Price = 0,
+                Image = string.Empty,
+                ColorOptions = []
+            };
+    }
+
+    public void Submit()
+    {
+        OnConfirm.InvokeAsync(Stuff!);
+    }
+}

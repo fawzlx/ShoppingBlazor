@@ -1,10 +1,9 @@
 ﻿using ShoppingBlazor.Databases.DbContexts;
 using ShoppingBlazor.Entities.Common;
-using ShoppingBlazor.Infrastructure.DI;
 
 namespace ShoppingBlazor.Databases.Repositories;
 
-public abstract class Repository<T>(IShoppingBlazorDbContext dbContext) : IRepository<T>, IScopedService
+public abstract class Repository<T>(IShoppingBlazorDbContext dbContext) : IRepository<T>
     where T : IEntity
 {
     protected readonly IShoppingBlazorDbContext DbContext = dbContext;
