@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Services", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Entities", "ShoppingBlazor.Entities\ShoppingBlazor.Entities.csproj", "{B0F83241-0D4C-4BD7-8032-0E0FF8C82C89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Common", "ShoppingBlazor.Common\ShoppingBlazor.Common.csproj", "{6F536506-8028-4276-823B-8A05E517949E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Infrastructure", "ShoppingBlazor.Common\ShoppingBlazor.Infrastructure.csproj", "{6F536506-8028-4276-823B-8A05E517949E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBlazor.Databases", "ShoppingBlazor.Databases\ShoppingBlazor.Databases.csproj", "{4BC68A71-9342-45B4-BC44-786F9F182A47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6F536506-8028-4276-823B-8A05E517949E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F536506-8028-4276-823B-8A05E517949E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F536506-8028-4276-823B-8A05E517949E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC68A71-9342-45B4-BC44-786F9F182A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC68A71-9342-45B4-BC44-786F9F182A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC68A71-9342-45B4-BC44-786F9F182A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC68A71-9342-45B4-BC44-786F9F182A47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

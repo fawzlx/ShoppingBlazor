@@ -1,4 +1,4 @@
-﻿using ShoppingBlazor.Entities.Base;
+﻿using ShoppingBlazor.Entities.Common;
 
 namespace ShoppingBlazor.Entities.Products;
 

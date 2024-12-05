@@ -1,10 +1,22 @@
 using ShoppingBlazor.Components;
+using ShoppingBlazor.Infrastructure.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.Scan(x => x
+    .FromAssemblies().AddClasses(classes => classes.AssignableTo<ITransientService>())
+    .AsImplementedInterfaces()
+    .WithTransientLifetime()
+    .AddClasses(classes => classes.AssignableTo<IScopedService>())
+    .AsImplementedInterfaces()
+    .WithScopedLifetime()
+    .AddClasses(classes => classes.AssignableTo<ISingletonService>())
+    .AsImplementedInterfaces()
+    .WithSingletonLifetime());
 
 var app = builder.Build();
 

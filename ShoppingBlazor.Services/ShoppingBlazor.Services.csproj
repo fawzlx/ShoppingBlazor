@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShoppingBlazor.Entities\ShoppingBlazor.Entities.csproj" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingBlazor.Databases\ShoppingBlazor.Databases.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Products\Paginations\" />
   </ItemGroup>
 
 </Project>

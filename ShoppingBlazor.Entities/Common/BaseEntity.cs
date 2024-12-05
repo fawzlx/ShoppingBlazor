@@ -1,4 +1,4 @@
-﻿namespace ShoppingBlazor.Entities.Base;
+﻿namespace ShoppingBlazor.Entities.Common;
 
 public class BaseEntity<TId> : IEntity
     where TId : struct
