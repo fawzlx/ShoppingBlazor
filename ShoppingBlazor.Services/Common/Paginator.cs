@@ -4,10 +4,10 @@ namespace ShoppingBlazor.Services.Common;
 
 public abstract class Paginator<T> where T : class
 {
-    public int? Index { get; set; }
-    public int? Take { get; set; }
-    public string? Order { get; set; }
-    public string? Sort { get; set; }
+    public int Index { get; set; } = 0;
+    public int Take { get; set; } = 10;
+    public string Order { get; set; } = "asc";
+    public string Sort { get; set; } = "Id";
 
     protected virtual byte DefaultCount => 20;
     protected virtual byte MinCount => 1;
@@ -27,10 +27,10 @@ public abstract class Paginator<T> where T : class
 
     protected IOrderedQueryable<T> ApplyOrder(IQueryable<T> models)
     {
-        var sortPropertyInfo = typeof(T).GetProperty(Sort ?? string.Empty);
+        var sortPropertyInfo = typeof(T).GetProperty(Sort);
         sortPropertyInfo ??= DefaultSortProperty() ?? typeof(T).GetProperties().First();
 
-        return Order is not null && Order.Equals("asc", StringComparison.OrdinalIgnoreCase)
+        return Order.Equals("asc", StringComparison.OrdinalIgnoreCase)
                 ? models.OrderBy(x => sortPropertyInfo.GetValue(x))
                 : models.OrderByDescending(x => sortPropertyInfo.GetValue(x));
     }
@@ -44,8 +44,8 @@ public abstract class Paginator<T> where T : class
 
     protected IList<T> ApplyTakes(IQueryable<T> models)
     {
-        var index = Index is > 0 ? Index.Value : 0;
-        var count = Take >= MinCount && Take <= MaxCount ? Take.Value : DefaultCount;
+        var index = Index > 0 ? Index : 0;
+        var count = Take >= MinCount && Take <= MaxCount ? Take : DefaultCount;
 
         return models
             .Skip(count * index)

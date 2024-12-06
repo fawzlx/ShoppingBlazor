@@ -8,9 +8,9 @@ public class BrandDao(IShoppingBlazorDbContext dbContext) : Repository<Brand>(db
 {
     public override Brand Create(Brand entity)
     {
-        var lastId = DbContext.Brands.Max(x => x.Id);
+        var nextId = DbContext.Brands.MaxBy(x => x.Id)?.Id + 1 ?? 1;
 
-        entity.Id = lastId;
+        entity.Id = (short)nextId;
 
         DbContext.Brands = DbContext.Brands.Append(entity);
 

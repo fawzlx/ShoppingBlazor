@@ -1,5 +1,48 @@
-﻿<h3>StuffEdit</h3>
+﻿@using Mapster
+@using ShoppingBlazor.Services.Products.Dtos
+<h3>StuffEdit</h3>
+
+<div class="modal show fade g-3 d-block" tabindex="-1" aria-hidden="true" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-xl modal-dialog modal-dialog-centered rounded-4">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title">ویرایش کالا</h5>
+            </div>
+            <div class="modal-body">
+                <StuffEditor
+                Stuff ="_addStuffRequest"
+                OnConfirm="Edit"
+                OnCancel="Cancel">
+                </StuffEditor>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    [Parameter] public EventCallback OnCancel { get; set; }
 
+    [Parameter] public EventCallback<EditStuffRequest> OnEdit { get; set; }
+
+    [Parameter] public required StuffDto Stuff { get; set; }
+
+    private AddStuffRequest? _addStuffRequest;
+
+    protected override void OnInitialized()
+    {
+        _addStuffRequest = Stuff.Adapt<AddStuffRequest>();
+    }
+
+    private async Task Cancel()
+    {
+        await OnCancel.InvokeAsync();
+    }
+
+    private async Task Edit(AddStuffRequest request)
+    {
+        var editStuffRequest = request.Adapt<EditStuffRequest>();
+        editStuffRequest.Id = Stuff.Id;
+
+        await OnEdit.InvokeAsync(editStuffRequest);
+    }
 }

@@ -8,9 +8,9 @@ public class StuffDao(IShoppingBlazorDbContext dbContext) : Repository<Stuff>(db
 {
     public override Stuff Create(Stuff entity)
     {
-        var lastId = DbContext.Stuffs.Max(x => x.Id);
+        var nextId = DbContext.Stuffs.MaxBy(x => x.Id)?.Id + 1 ?? 1;
 
-        entity.Id = lastId;
+        entity.Id = nextId;
 
         DbContext.Stuffs = DbContext.Stuffs.Append(entity);
 
@@ -33,7 +33,7 @@ public class StuffDao(IShoppingBlazorDbContext dbContext) : Repository<Stuff>(db
 
         var stuffs = DbContext.Stuffs.ToList();
 
-        var index = stuffs.IndexOf(entity);
+        var index = stuffs.IndexOf(oldStuff);
 
         stuffs[index] = entity;
 

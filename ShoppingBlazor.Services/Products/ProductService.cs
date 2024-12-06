@@ -12,11 +12,6 @@ public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> bran
 {
     public ErrorOr<IList<StuffDto>> Stuffs(StuffPagination request)
     {
-        // return new List<StuffDto>
-        // {
-        //     new StuffDto(1, "sdf", "sdfs", "sdfs", null, 8, 1250000, DateTime.Now, DateTime.Now.AddDays(15))
-        // };
-
         var stuffs = stuffDao.Read();
 
         var filtersStuff = request.Apply(stuffs);
@@ -38,5 +33,49 @@ public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> bran
         stuff.Brand = brand;
 
         return new StuffDto(stuffDao.Create(stuff));
+    }
+
+    public ErrorOr<StuffDto> EditStuff(EditStuffRequest request)
+    {
+        var brand = brandDao.ReadById(request.BrandId);
+        if (brand is null) return Error.NotFound("برند مورد نظر یافت نشد");
+
+        var category = categoryDao.ReadById(request.CategoryId);
+        if (category is null) return Error.NotFound("دسته بندی مورد نظر یافت نشد");
+
+        var stuff = request.Adapt<Stuff>();
+        stuff.Category = category;
+        stuff.Brand = brand;
+
+        return new StuffDto(stuffDao.Update(stuff));
+    }
+
+    public ErrorOr<StuffDto> RemoveStuff(int stuffId)
+    {
+        var stuff = stuffDao.DeleteById(stuffId);
+
+        if (stuff is null) return Error.NotFound();
+
+        return new StuffDto(stuff);
+    }
+
+    public ErrorOr<IList<CategoryDto>> Categories(CategoryPagination pagination)
+    {
+        var categories = categoryDao.Read();
+
+        var filtersCategories = pagination.Apply(categories);
+
+        return filtersCategories.Result.Select(x => new CategoryDto(x))
+            .ToList();
+    }
+
+    public ErrorOr<IList<BrandDto>> Brands(BrandPagination pagination)
+    {
+        var brands = brandDao.Read();
+
+        var filtersBrands = pagination.Apply(brands);
+
+        return filtersBrands.Result.Select(x => new BrandDto(x))
+            .ToList();
     }
 }

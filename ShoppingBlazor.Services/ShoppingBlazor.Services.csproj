@@ -14,8 +14,4 @@
     <ProjectReference Include="..\ShoppingBlazor.Databases\ShoppingBlazor.Databases.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Products\Paginations\" />
-  </ItemGroup>
-
 </Project>

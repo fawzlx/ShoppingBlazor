@@ -8,9 +8,9 @@ public class CategoryDao(IShoppingBlazorDbContext dbContext) : Repository<Catego
 {
     public override Category Create(Category entity)
     {
-        var lastId = DbContext.Categories.Max(x => x.Id);
+        var nextId = DbContext.Categories.MaxBy(x => x.Id)?.Id + 1 ?? 1;
 
-        entity.Id = lastId;
+        entity.Id = (short)nextId;
 
         DbContext.Categories = DbContext.Categories.Append(entity);
 

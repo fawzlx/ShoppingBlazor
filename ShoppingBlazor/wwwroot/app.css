@@ -1,5 +1,6 @@
 html, body {
     font-family: IRANSans, Vazirmatn !important;
+    direction: rtl;
 }
 
 a, .btn-link {

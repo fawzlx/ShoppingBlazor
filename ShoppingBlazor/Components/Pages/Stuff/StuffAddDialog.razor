@@ -1,0 +1,35 @@
+﻿@using ShoppingBlazor.Services.Products
+@using ShoppingBlazor.Services.Products.Dtos
+@inject IProductService ProductService
+
+<div class="modal show fade g-3 d-block" tabindex="-1" aria-hidden="true" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-xl modal-dialog modal-dialog-centered rounded-4">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title">افزودن کالا</h5>
+            </div>
+            <div class="modal-body">
+                <StuffEditor
+                    OnConfirm="Add"
+                    OnCancel="Cancel">
+                </StuffEditor>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    [Parameter] public EventCallback<AddStuffRequest> OnAdd { get; set; }
+
+    private async Task Cancel()
+    {
+        await OnCancel.InvokeAsync();
+    }
+
+    private async Task Add(AddStuffRequest request)
+    {
+        await OnAdd.InvokeAsync(request);
+    }
+}

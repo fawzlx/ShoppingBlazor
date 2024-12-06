@@ -13,15 +13,15 @@ public class StuffPagination : Paginator<Stuff>
     
     protected override IQueryable<Stuff> ApplyConditions(IQueryable<Stuff> entities)
     {
-        if (string.IsNullOrWhiteSpace(Name))
+        if (!string.IsNullOrWhiteSpace(Name))
         {
             entities = entities.Where(x => x.Name.Contains(Name!));
         }
-        if (string.IsNullOrWhiteSpace(CategoryName))
+        if (!string.IsNullOrWhiteSpace(CategoryName))
         {
             entities = entities.Where(x => x.Category.Name.Contains(CategoryName!));
         }
-        if (string.IsNullOrWhiteSpace(SupplierName))
+        if (!string.IsNullOrWhiteSpace(SupplierName))
         {
             entities = entities.Where(x => x.SupplierName != null && x.SupplierName.Contains(SupplierName!));
         }

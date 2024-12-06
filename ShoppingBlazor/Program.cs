@@ -2,14 +2,13 @@ using ShoppingBlazor.Components;
 using ShoppingBlazor.Databases.DbContexts;
 using ShoppingBlazor.Databases.Repositories;
 using ShoppingBlazor.Entities.Products;
-using ShoppingBlazor.Infrastructure.DI;
-using ShoppingBlazor.Infrastructure.Extensions;
 using ShoppingBlazor.Services.Products;
 using ShoppingBlazor.Services.Products.Daos;
+using ShoppingBlazor.States;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Confirm services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -33,7 +32,10 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddTransient<IRepository<Stuff>, StuffDao>();
 builder.Services.AddTransient<IRepository<Brand>, BrandDao>();
 builder.Services.AddTransient<IRepository<Category>, CategoryDao>();
- 
+builder.Services.AddScoped<AddStuffState>();
+builder.Services.AddScoped<RemoveStuffState>();
+builder.Services.AddScoped<EditStuffState>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
