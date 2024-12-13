@@ -1,3 +1,4 @@
+using MudBlazor.Services;
 using ShoppingBlazor.Components;
 using ShoppingBlazor.Databases.DbContexts;
 using ShoppingBlazor.Databases.Repositories;
@@ -7,6 +8,8 @@ using ShoppingBlazor.Services.Products.Daos;
 using ShoppingBlazor.States;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMudServices();
 
 // Confirm services to the container.
 builder.Services.AddRazorComponents()

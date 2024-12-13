@@ -1,39 +1,39 @@
 ﻿@page "/category"
+@using ShoppingBlazor.Entities.Products
+@using ShoppingBlazor.Infrastructure.Extensions
+@using ShoppingBlazor.Services.Products.Dtos
 @rendermode InteractiveServer
 
-<h3>دسته بندی‌ها</h3>
+<MudText Typo="Typo.h5">دسته بندی‌ها</MudText>
 
 <div class="container-fluid gap-3 d-grid md-flex">
-    <div class="row shadow rounded-4 d-grid d-md-flex">
-        <div class="col m-2">
-            <label class="text-nowrap">نام</label>
-            <input type="text" class="form-control mt-2 rounded-3" placeholder="نام دسته بندی" aria-label="name">
-        </div>
-        <div class="col m-2">
-            <label class="text-nowrap">گروه</label>
-            <div class="dropdown">
-                <button class="rounded-3 mt-2 container-fluid btn btn-secondary dropdown-toggle text-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    انتخاب
-                </button>
-                <ul class="dropdown-menu dropdown-menu-lg-start rounded-3">
-                    <li>
-                        <a class="dropdown-item text-end" href="#">گروه اول</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-end" href="#">گروه دوم</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-end" href="#">گروه سوم</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="m-2 d-grid gap-2 d-md-flex">
-            <button type="button" class="btn btn-primary btn-sm rounded-3">جستجو</button>
-            <button type="button" class="btn btn-secondary btn-sm rounded-3">نمایش همه</button>
-        </div>
-    </div>
+    <MudGrid>
+        <MudItem xs="12" md="6">
+            <MudTextField @bind-Value="Text" Clearable="true" Label="نام" Variant="Variant.Outlined" Typo="Typo.input" Margin="Margin.Dense"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudSelect MultiSelection="true"
+                       Margin="Margin.Dense"
+                       SelectAll="true"
+                       SelectAllText="انتخاب همه"
+                       ToStringFunc="group => group.Display()"
+                       @bind-SelectedValues="CategoryGroups"
+                       Variant="Variant.Outlined"
+                       Label="گروه"
+                       Dense="true"
+                       Placeholder="گروه دسته بندی"
+                       Clearable="true">
+                @foreach (var group in Enum.GetValues(typeof(CategoryGroup)).Cast<CategoryGroup>())
+                {
+                    <MudSelectItem Value="@group">@group.Display()</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem>
+            <MudFab Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Search"/>
+            <MudFab Size="Size.Small" StartIcon="@Icons.Material.Filled.SearchOff" Color="Color.Secondary" Label="نمایش همه" />
+        </MudItem>
+    </MudGrid>
 
     <div class="row shadow rounded-4 table-responsive">
         <table class="table table-striped table-hover rounded-3 align-middle text-nowrap">
@@ -109,5 +109,22 @@
 </div>
 
 @code {
+    public string? Text { get; set; }
+
+    public IEnumerable<CategoryGroup> CategoryGroups { get; set; } = new HashSet<CategoryGroup>();
+
+    public IEnumerable<CategoryDto> Categories { get; set; } =
+    [
+        new(1, "Category 1", CategoryGroup.Group1),
+        new(2, "Category 2", CategoryGroup.Group1),
+        new(3, "Category 3", CategoryGroup.Group1),
+        new(4, "Category 4", CategoryGroup.Group1),
+        new(5, "Category 5", CategoryGroup.Group1),
+        new(6, "Category 6", CategoryGroup.Group1),
+        new(7, "Category 7", CategoryGroup.Group1),
+        new(8, "Category 8", CategoryGroup.Group1),
+        new(9, "Category 9", CategoryGroup.Group1),
+        new(10, "Category 10", CategoryGroup.Group2)
+    ];
 
 }

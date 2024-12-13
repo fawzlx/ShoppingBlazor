@@ -1,35 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">فروشگاه</a>
-    </div>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <div><span class="bi bi-house-fill" aria-hidden="true"></span> خانه</div>
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="category">
-                <div><span class="bi bi-tag-fill" aria-hidden="true"></span> دسته بندی ها</div>
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="brand">
-                <div><span class="bi bi-bag-fill" aria-hidden="true"></span> برند ها</div>
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="stuff">
-                <div><span class="bi bi-box-fill" aria-hidden="true"></span> کالا ها</div>
-            </NavLink>
-        </div>
-    </nav>
-</div>
+﻿<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All">خانه</MudNavLink>
+    <MudNavLink Href="/category" Match="NavLinkMatch.Prefix">دسته بندی ها</MudNavLink>
+    <MudNavLink Href="/brand" Match="NavLinkMatch.Prefix">برند ها</MudNavLink>
+    <MudNavLink Href="/stuff" Match="NavLinkMatch.Prefix">کالا ها</MudNavLink>
+</MudNavMenu>

@@ -1,5 +1,5 @@
-html, body {
-    font-family: IRANSans, Vazirmatn !important;
+* {
+    font-family: IRANSans !important;
     direction: rtl;
 }
 

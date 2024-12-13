@@ -2,9 +2,9 @@
 
 namespace ShoppingBlazor.Services.Products.Dtos;
 
-public record CategoryDto(short Id, string Name)
+public record CategoryDto(short Id, string Name, CategoryGroup Group)
 {
-    public CategoryDto(Category category) : this(category.Id, category.Name)
+    public CategoryDto(Category category) : this(category.Id, category.Name, category.Group)
     {
     }
 }
