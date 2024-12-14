@@ -4,22 +4,13 @@ using ShoppingBlazor.Services.Products.Dtos;
 
 namespace ShoppingBlazor.States;
 
-public class EditStuffState(IProductService productService) : DialogState
+public class EditStuffState(IProductService productService) : DialogState<StuffDto>
 {
-    public StuffDto? Stuff { get; private set; }
-
-    public void SetStuff(StuffDto stuff)
-    {
-        Stuff = stuff;
-
-        Show();
-    }
-
     public void Confirm(EditStuffRequest request)
     {
         productService.EditStuff(request);
 
-        Stuff = null;
+        Item = null;
 
         Hide();
     }

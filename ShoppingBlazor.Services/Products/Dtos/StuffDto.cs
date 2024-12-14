@@ -13,7 +13,7 @@ public record StuffDto(
     uint Stock,
     uint Price,
     DateTime? StartDate,
-    DateTime? EnDateTime,
+    DateTime? EndDateTime,
     string Image,
     string? Catalog
 )

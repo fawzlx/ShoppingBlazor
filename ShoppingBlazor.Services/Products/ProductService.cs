@@ -3,21 +3,23 @@ using Mapster;
 using ShoppingBlazor.Databases.Repositories;
 using ShoppingBlazor.Entities.Products;
 using ShoppingBlazor.Infrastructure.DI;
+using ShoppingBlazor.Infrastructure.Results;
 using ShoppingBlazor.Services.Products.Dtos;
 using ShoppingBlazor.Services.Products.Paginations;
 
 namespace ShoppingBlazor.Services.Products;
 
-public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> brandDao, IRepository<Category> categoryDao) : IProductService, IScopedService
+public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> brandDao, IRepository<Category> categoryDao)
+    : IProductService, IScopedService
 {
-    public ErrorOr<IList<StuffDto>> Stuffs(StuffPagination request)
+    public ErrorOr<ResultList<StuffDto>> Stuffs(StuffPagination request)
     {
         var stuffs = stuffDao.Read();
 
         var filtersStuff = request.Apply(stuffs);
 
-        return filtersStuff.Result.Select(x => new StuffDto(x))
-            .ToList();
+        return new ResultList<StuffDto>(filtersStuff.Results.Select(x => new StuffDto(x))
+            .ToList(), filtersStuff.Total);
     }
 
     public ErrorOr<StuffDto> AddStuff(AddStuffRequest request)
@@ -59,23 +61,23 @@ public class ProductService(IRepository<Stuff> stuffDao, IRepository<Brand> bran
         return new StuffDto(stuff);
     }
 
-    public ErrorOr<IList<CategoryDto>> Categories(CategoryPagination pagination)
+    public ErrorOr<ResultList<CategoryDto>> Categories(CategoryPagination pagination)
     {
         var categories = categoryDao.Read();
 
         var filtersCategories = pagination.Apply(categories);
 
-        return filtersCategories.Result.Select(x => new CategoryDto(x))
-            .ToList();
+        return new ResultList<CategoryDto>(filtersCategories.Results.Select(x => new CategoryDto(x))
+            .ToList(), filtersCategories.Total);
     }
 
-    public ErrorOr<IList<BrandDto>> Brands(BrandPagination pagination)
+    public ErrorOr<ResultList<BrandDto>> Brands(BrandPagination pagination)
     {
         var brands = brandDao.Read();
 
         var filtersBrands = pagination.Apply(brands);
 
-        return filtersBrands.Result.Select(x => new BrandDto(x))
-            .ToList();
+        return new ResultList<BrandDto>(filtersBrands.Results.Select(x => new BrandDto(x))
+            .ToList(), filtersBrands.Total);
     }
 }

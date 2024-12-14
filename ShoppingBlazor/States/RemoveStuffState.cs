@@ -4,22 +4,13 @@ using ShoppingBlazor.Services.Products.Dtos;
 
 namespace ShoppingBlazor.States;
 
-public class RemoveStuffState(IProductService productService) : DialogState
+public class RemoveStuffState(IProductService productService) : DialogState<StuffDto>
 {
-    public StuffDto? Stuff { get; private set; }
-
-    public void SetId(StuffDto stuff)
-    {
-        Stuff = stuff;
-
-        Show();
-    }
-
     public void Confirm()
     {
-        productService.RemoveStuff(Stuff!.Id);
+        productService.RemoveStuff(Item!.Id);
 
-        Stuff = null;
+        Item = null;
 
         Hide();
     }

@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using ShoppingBlazor.Infrastructure.Results;
 using ShoppingBlazor.Services.Products.Dtos;
 using ShoppingBlazor.Services.Products.Paginations;
 
@@ -6,7 +7,7 @@ namespace ShoppingBlazor.Services.Products;
 
 public interface IProductService
 {
-    ErrorOr<IList<StuffDto>> Stuffs(StuffPagination request);
+    ErrorOr<ResultList<StuffDto>> Stuffs(StuffPagination request);
 
     ErrorOr<StuffDto> AddStuff(AddStuffRequest request);
 
@@ -14,7 +15,7 @@ public interface IProductService
 
     ErrorOr<StuffDto> RemoveStuff(int stuffId);
 
-    ErrorOr<IList<CategoryDto>> Categories(CategoryPagination pagination);
+    ErrorOr<ResultList<CategoryDto>> Categories(CategoryPagination pagination);
 
-    ErrorOr<IList<BrandDto>> Brands(BrandPagination pagination);
+    ErrorOr<ResultList<BrandDto>> Brands(BrandPagination pagination);
 }

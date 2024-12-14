@@ -1,4 +1,5 @@
 ﻿@page "/stuff"
+@using ShoppingBlazor.Extensions
 @using ShoppingBlazor.Infrastructure.Extensions
 @using ShoppingBlazor.Services.Products
 @using ShoppingBlazor.Services.Products.Dtos
@@ -10,139 +11,109 @@
 @inject EditStuffState EditStuffState
 @rendermode InteractiveServer
 
-<h3>کالاها</h3>
+<PageTitle>Stuff</PageTitle>
+
+<MudText Class="m-2" Typo="Typo.h5">کالاها</MudText>
 
 <div class="container-fluid gap-3 d-grid md-flex">
-    <div class="row shadow rounded-4 d-grid d-md-flex">
-        <div class="col m-2">
-            <label class="text-nowrap">نام کالا</label>
-            <input type="text" class="form-control mt-2 rounded-3" placeholder="نام کالا" aria-label="name">
-        </div>
-        <div class="col m-2">
-            <label class="text-nowrap">نام برند</label>
-            <input type="text" class="form-control mt-2 rounded-3" placeholder="نام برند" aria-label="name">
-        </div>
-        <div class="col m-2">
-            <label class="text-nowrap">نام تأمین کننده</label>
-            <input type="text" class="form-control mt-2 rounded-3" placeholder="نام تأمین کننده" aria-label="name">
-        </div>
-        <div class="col m-2">
-            <label class="text-nowrap">دسته بندی</label>
-            <div class="dropdown">
-                <button class="rounded-3 mt-2 container-fluid btn btn-secondary dropdown-toggle text-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    انتخاب
-                </button>
-                <ul class="dropdown-menu dropdown-menu-lg-start rounded-3">
-                    <li>
-                        <a class="dropdown-item text-end" href="#">دسته بندی اول</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-end" href="#">دسته بندی دوم</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-end" href="#">دسته بندی سوم</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="m-2 d-grid gap-2 d-md-flex">
-            <button type="button" class="btn btn-primary btn-sm rounded-3">جستجو</button>
-            <button type="button" class="btn btn-secondary btn-sm rounded-3">نمایش همه</button>
-        </div>
-    </div>
-
-    @if (Stuffs.Any())
-    {
-        <div class="row shadow rounded-4 table-responsive">
-            <table class="table table-striped table-hover rounded-3 align-middle text-nowrap">
-                <thead>
-                <tr>
-                    <th scope="col" class="col-1">شناسه</th>
-                    <th scope="col">نام کالا</th>
-                    <th scope="col">نام دسته بندی</th>
-                    <th scope="col">نام برند</th>
-                    <th scope="col">نام تأمین کننده</th>
-                    <th scope="col">موجودی</th>
-                    <th scope="col">قیمت</th>
-                    <th scope="col">تاریخ شروع</th>
-                    <th scope="col">تاریخ پایان</th>
-                    <th scope="col" class="col-1">عملیات</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var stuff in Stuffs)
+    <MudGrid>
+        <MudItem xs="12" lg="3" md="6">
+            <MudTextField @bind-Value="StuffPagination.Name" Clearable="true" Label="نام کالا" Variant="Variant.Outlined" Typo="Typo.input" Margin="Margin.Dense"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" lg="3" md="6">
+            <MudTextField @bind-Value="StuffPagination.BrandName" Clearable="true" Label="نام برند" Variant="Variant.Outlined" Typo="Typo.input" Margin="Margin.Dense"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" lg="3" md="6">
+            <MudTextField @bind-Value="StuffPagination.SupplierName" Clearable="true" Label="نام تأمین کننده" Variant="Variant.Outlined" Typo="Typo.input" Margin="Margin.Dense"></MudTextField>
+        </MudItem>
+        <MudItem xs="12" lg="3" md="6">
+            <MudSelect MultiSelection="true"
+            Margin="Margin.Dense"
+            SelectAll="true"
+            SelectAllText="انتخاب همه"
+            ToStringFunc="group => group.Name"
+            @bind-SelectedValues="StuffPagination.Categories"
+            Variant="Variant.Outlined"
+            Label="دسته بندی"
+            Dense="true"
+            Placeholder="انتخاب دسته بندی"
+            Clearable="true">
+                @foreach (var category in Categories)
                 {
-                    <tr>
-                        <td>@stuff.Id</td>
-                        <td>@stuff.Name</td>
-                        <td>@stuff.CategoryName</td>
-                        <td>@stuff.BrandName</td>
-                        <td>@stuff.SupplierName</td>
-                        <td>@stuff.Stock</td>
-                        <td>@stuff.Price.ToRial()</td>
-                        <td>@stuff.StartDate.ToPersianDateTime()</td>
-                        <td>@stuff.EnDateTime.ToPersianDateTime()</td>
-                        <td class="d-flex gap-2">
-                            <button class="rounded-3 btn btn-sm btn-warning bi bi-pencil-fill" @onclick="() => EditStuffState.SetStuff(stuff)"></button>
-                            <button type="button" class="rounded-3 btn btn-sm btn-danger bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#confirmDelete" @onclick="() => RemoveStuffState.SetId(stuff)"></button>
-                        </td>
-                    </tr>
+                    <MudSelectItem Value="@category">@category.Name</MudSelectItem>
                 }
-                </tbody>
-            </table>
-        </div>
-    }
-
-    <div class="d-md-flex justify-content-between align-items-center">
-        @if (Stuffs.Any())
-        {
-            <nav aria-label="Page navigation example" class="order-md-2">
-                <ul class="pagination justify-content-start">
-                    <li class="page-item">
-                        <a class="page-link rounded-end-3" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-start-3" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        }
-
-        <div class="order-md-1 d-flex gap-2">
-            <button type="button" class="btn btn-primary bi-plus-lg rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3" @onclick="AddStuffState.Show"></button>
-            <button type="button" class="btn btn-secondary bi bi-file-earmark-spreadsheet rounded-circle d-flex align-items-center justify-content-center aspect-ratio aspect-ratio-1x1 p-3"></button>
-        </div>
-    </div>
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12">
+            <MudFab Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Search" />
+            <MudFab Size="Size.Small" StartIcon="@Icons.Material.Filled.SearchOff" Color="Color.Secondary" Label="نمایش همه" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudTable ServerData="ReloadStuffs" Dense="true" Hover="true" Outlined="true" Striped="true" @ref="_stuffTable">
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortLabel="Id" T="StuffDto">شناسه</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="Name" T="StuffDto">نام کالا</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="CategoryName" T="StuffDto">نام دسته بندی</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="BrandName" T="StuffDto">نام برند</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="SupplierName" T="StuffDto">نام تأمین کننده</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="Stock" T="StuffDto">موجودی</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="Price" T="StuffDto">قیمت</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="StartDate" T="StuffDto">تاریخ شروع</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="EndDateTime" T="StuffDto">تاریخ پایان</MudTableSortLabel></MudTh>
+                    <MudTh Class="text-center">عملیات</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="CategoryName">@context.CategoryName</MudTd>
+                    <MudTd DataLabel="BrandName">@context.BrandName</MudTd>
+                    <MudTd DataLabel="SupplierName">@context.SupplierName</MudTd>
+                    <MudTd DataLabel="Stock">@context.Stock</MudTd>
+                    <MudTd DataLabel="Price">@context.Price.ToRial()</MudTd>
+                    <MudTd DataLabel="StartDate">@context.StartDate.ToPersianDateTime()</MudTd>
+                    <MudTd DataLabel="EndDateTime">@context.EndDateTime.ToPersianDateTime()</MudTd>
+                    <MudTd DataLabel="عملیات" Class="text-center">
+                        <MudButton Size="Size.Medium" StartIcon="@Icons.Material.Filled.Delete" @onclick="() => RemoveStuffState.Show(context)" Color="Color.Secondary"></MudButton>
+                        <MudButton Size="Size.Medium" StartIcon="@Icons.Material.Filled.Edit" @onclick="() => EditStuffState.Show(context)" Color="Color.Tertiary"></MudButton>
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>کالایی یافت نشد</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>درحال بارگیری...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="[10, 25, 50, 100]"
+                                   RowsPerPageString="تعداد در صفحه:"
+                                   InfoFormat="{first_item}-{last_item} از {all_items}"
+                                   HorizontalAlignment="HorizontalAlignment.Center"/>
+                </PagerContent>
+                <FooterContent>
+                    <MudTFootRow>
+                        <MudFab Size="Size.Small" Class="my-2 ms-2" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" @onclick="AddStuffState.Show" />
+                        <MudFab Size="Size.Small" Class="my-2" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.DocumentScanner" />
+                    </MudTFootRow>
+                </FooterContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
 </div>
 
 @if (AddStuffState.ShowDialog)
 {
     <StuffAddDialog
-        OnCancel="AddStuffState.Hide"
-        OnAdd="Add">
+    OnCancel="AddStuffState.Hide"
+    OnAdd="Add">
     </StuffAddDialog>
 }
 
 @if (EditStuffState.ShowDialog)
 {
     <StuffEdit
-        Stuff="EditStuffState.Stuff"
-        OnCancel="EditStuffState.Hide"
-        OnEdit="Edit">
+    Stuff="EditStuffState.Item"
+    OnCancel="EditStuffState.Hide"
+    OnEdit="Edit">
     </StuffEdit>
 }
 
@@ -168,31 +139,50 @@
 }
 
 @code {
-    public IList<StuffDto> Stuffs { get; set; } = [];
+    private MudTable<StuffDto> _stuffTable;
+
+    public IList<CategoryDto> Categories { get; set; } = [];
+
+    public required StuffPagination StuffPagination { get; set; } = new();
 
     protected override void OnInitialized()
     {
-        Stuffs = ProductService.Stuffs(new StuffPagination()).Value;
+        var categoryResult = ProductService.Categories(new CategoryPagination()).Value;
+
+        Categories = categoryResult.Results;
     }
 
-    private void Add(AddStuffRequest request)
+    private async Task<TableData<StuffDto>> ReloadStuffs(TableState state, CancellationToken token)
+    {
+        StuffPagination.Set(state);
+
+        var stuffs = ProductService.Stuffs(StuffPagination).Value;
+        
+        return new TableData<StuffDto>
+            {
+                TotalItems = stuffs.Total,
+                Items = stuffs.Results
+            };
+    }
+
+    private async Task Add(AddStuffRequest request)
     {
         AddStuffState.Confirm(request);
 
-        Stuffs = ProductService.Stuffs(new StuffPagination()).Value;
+        await _stuffTable.ReloadServerData();
     }
 
-    private void Edit(EditStuffRequest request)
+    private async Task Edit(EditStuffRequest request)
     {
         EditStuffState.Confirm(request);
 
-        Stuffs = ProductService.Stuffs(new StuffPagination()).Value;
+        await _stuffTable.ReloadServerData();
     }
 
-    private void Remove()
+    private async Task Remove()
     {
         RemoveStuffState.Confirm();
 
-        Stuffs = ProductService.Stuffs(new StuffPagination()).Value;
+        await _stuffTable.ReloadServerData();
     }
 }

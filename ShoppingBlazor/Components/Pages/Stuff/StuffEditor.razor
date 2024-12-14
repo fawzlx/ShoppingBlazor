@@ -124,9 +124,9 @@
                 ColorOptions = []
             };
 
-        _brands = ProductService.Brands(new BrandPagination()).Value;
+        _brands = ProductService.Brands(new BrandPagination()).Value.Results;
 
-        _categories = ProductService.Categories(new CategoryPagination()).Value;
+        _categories = ProductService.Categories(new CategoryPagination()).Value.Results;
     }
 
     public async Task Submit()
