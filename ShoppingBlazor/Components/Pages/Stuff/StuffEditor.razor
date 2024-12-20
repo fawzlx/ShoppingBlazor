@@ -1,73 +1,123 @@
-﻿@using ShoppingBlazor.Services.Products
+﻿@using System.Globalization
+@using MudBlazor.Utilities
+@using ShoppingBlazor.Infrastructure.Extensions
+@using ShoppingBlazor.Services.Products
 @using ShoppingBlazor.Services.Products.Dtos
 @using ShoppingBlazor.Services.Products.Paginations
 @inject IProductService ProductService
 @rendermode InteractiveServer
 
-<EditForm Model="Stuff" class="row d-grid d-lg-flex" OnInvalidSubmit="Submit">
+<EditForm Model="Stuff" OnInvalidSubmit="Submit" @ref="_editorForm">
     <DataAnnotationsValidator />
 
-    <div class="col-lg-4">
-        <label for="name" class="form-label">نام کالا</label>
-        <InputText @bind-value="Stuff!.Name" class="form-control mb-2 rounded-3" id="name" />
-        <ValidationMessage For="@(() => Stuff!.Name)" />
-    </div>
-    <div class="col-lg-4">
-        <label for="categoryId" class="form-label">نام دسته بندی</label>
-        <InputSelect @bind-value="Stuff!.CategoryId" id="categoryId" class="form-control mb-2 rounded-3">
-            <option selected>انتخاب کنید...</option>
-            @foreach (var category in _categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => Stuff!.CategoryId)" />
-    </div>
-    <div class="col-lg-4">
-        <label for="brandId" class="form-label">نام برند</label>
-        <InputSelect @bind-value="Stuff!.BrandId" id="brandId" class="form-control mb-2 rounded-3">
-            <option selected>انتخاب کنید...</option>
-            @foreach (var brand in _brands)
-            {
-                <option value="@brand.Id">@brand.Name</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => Stuff!.BrandId)" />
-    </div>
-    <div class="col-lg-4">
-        <label for="producerName" class="form-label">نام تأمین کننده</label>
-        <InputText @bind-value="Stuff!.SupplierName" class="form-control mb-2 rounded-3" id="producerName" />
-        <ValidationMessage For="@(() => Stuff!.SupplierName)" />
-    </div>
-    <div class="col-lg-4">
-        <label for="number" class="form-label">موجودی</label>
-        <InputNumber @bind-value="Stuff!.Stock" class="form-control mb-2 rounded-3" id="number" />
-        <ValidationMessage For="@(() => Stuff!.Stock)" />
-    </div>
-    <div class="col-lg-4">
-        <label for="amount" class="form-label mb-2 rounded-3">قیمت</label>
-        <div class="input-group">
-            <span class="input-group-text">ريال</span>
-            <InputNumber @bind-value="Stuff!.Price" class="form-control" id="amount" aria-label="Amount (to the nearest dollar)" />
-            <ValidationMessage For="@(() => Stuff!.Price)" />
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <label for="producerEmail" class="form-label">ایمیل تأمین کننده</label>
-        <InputText @bind-value="Stuff!.SupplierEmail" class="form-control mb-2 rounded-3" id="producerEmail" />
-        <ValidationMessage For="@(() => Stuff!.SupplierEmail)" />
-    </div>
-    <div class="col-lg-4">
-        <label class="form-label">تاریخ نمایش</label>
-        <div class="input-group">
-            <span class="input-group-text">از</span>
-            <InputDate @bind-value="Stuff!.StartDate" class="form-control" />
-            <ValidationMessage For="@(() => Stuff!.StartDate)" />
-            <span class="input-group-text">تا</span>
-            <InputDate @bind-value="Stuff!.EnDateTime" class="form-control" />
-            <ValidationMessage For="@(() => Stuff!.EnDateTime)" />
-        </div>
-    </div>
+    <MudGrid>
+        <MudItem xs="12" md="6" lg="4">
+            <MudTextField @bind-Value="Stuff.Name"
+                          Label="نام کالا"
+                          Variant="Variant.Outlined"
+                          Typo="Typo.input"
+                          Margin="Margin.Dense"
+                          Required="true"
+                          For="@(() => Stuff.Name)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudSelect Margin="Margin.Dense"
+                       ToStringFunc="x => x?.Name"
+                       Required="true"
+                       @bind-value="Stuff.Category"
+                       Variant="Variant.Outlined"
+                       Label="دسته بندی"
+                       Dense="true"
+                       Placeholder="انتخاب دسته بندی"
+                       For="@(() => Stuff.Category)">
+                @foreach (var category in _categories)
+                {
+                    <MudSelectItem Value="@category">@category.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudSelect Margin="Margin.Dense"
+                       ToStringFunc="x => x?.Name"
+                       Required="true"
+                       @bind-value="Stuff.Brand"
+                       Variant="Variant.Outlined"
+                       Label="برند"
+                       Dense="true"
+                       Placeholder="انتخاب برند"
+                       For="@(() => Stuff.Brand)">
+                @foreach (var brand in _brands)
+                {
+                    <MudSelectItem Value="@brand">@brand.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudTextField @bind-Value="Stuff.SupplierName"
+                          Label="نام تأمین کننده"
+                          Variant="Variant.Outlined"
+                          Typo="Typo.input"
+                          Margin="Margin.Dense"
+                          Required="true"
+                          For="@(() => Stuff.SupplierName)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudNumericField Margin="Margin.Dense"
+                             @bind-Value="Stuff.Stock"
+                             Label="موجودی"
+                             Variant="Variant.Outlined"
+                             For="@(() => Stuff.Stock)" />
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudNumericField Margin="Margin.Dense"
+                             @bind-Value="Stuff.Price"
+                             Label="قیمت"
+                             T="int"
+                             Format="N0"
+                             Immediate="true"
+                             DebounceInterval="500"
+                             HideSpinButtons="true"
+                             Variant="Variant.Outlined"
+                             Culture="@CultureInfo.GetCultureInfo("fa-ir")"
+                             For="@(() => Stuff.Price)"
+                             HelperText="@Stuff.Price.ToRial()" />
+        </MudItem>
+        <MudItem xs="12" md="6" lg="4">
+            <MudTextField @bind-Value="Stuff.SupplierEmail"
+                          Label="ایمیل تأمین کننده"
+                          Variant="Variant.Outlined"
+                          Typo="Typo.input"
+                          Margin="Margin.Dense"
+                          Required="true"
+                          For="@(() => Stuff.SupplierEmail)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="12" md="3" lg="2">
+            <MudDatePicker Margin="Margin.Dense"
+                           Label="تاریخ شروع"
+                           @bind-Date="Stuff.StartDate"
+                           Variant="Variant.Outlined"
+                           Culture="@DateTimeExtension.GetPersianCulture()"
+                           TitleDateFormat="dddd, dd MMMM" />
+        </MudItem>
+        <MudItem xs="12" md="3" lg="2">
+            <MudDatePicker Margin="Margin.Dense"
+                           Label="تاریخ پایان"
+                           @bind-Date="Stuff.EnDateTime"
+                           Variant="Variant.Outlined"
+                           Culture="@DateTimeExtension.GetPersianCulture()"
+                           TitleDateFormat="dddd, dd MMMM" />
+        </MudItem>
+        <MudItem md="12" lg="4">
+            <MudColorPicker Variant="Variant.Outlined"
+                            PickerVariant="PickerVariant.Static"
+                            ColorPickerView="ColorPickerView.Palette"
+                            Palette="CustomPalette" />
+        </MudItem>
+    </MudGrid>
+
     <div class="col-lg-4">
         <label for="number" class="form-label mb-2 rounded-3">رنگ بندی محصول</label>
         <div class="order-md-1 d-flex gap-2">
@@ -90,14 +140,30 @@
     </div>
 
     <div class="m-2 d-grid gap-2 d-md-flex">
-        <button type="button" class="btn btn-secondary bi bi-x-circle" @onclick="@Cancel">بستن</button>
-        <button type="submit" class="btn btn-primary" @onclick="@Submit" disabled="@(!context.Validate())">@_buttonType</button>
+        <MudButton ButtonType="ButtonType.Submit" OnClick="Submit"></MudButton>
     </div>
 
 </EditForm>
 
 @code {
-    [Parameter] public AddStuffRequest? Stuff { get; set; }
+    private EditForm _editorForm;
+
+    public IEnumerable<MudColor> CustomPalette { get; set; } =
+    [
+        "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5",
+    ];
+
+    [Parameter]
+    public required AddStuffRequest Stuff { get; set; } = new()
+        {
+            Name = string.Empty,
+            Category = null,
+            Brand = null,
+            Stock = 0,
+            Price = 0,
+            Image = string.Empty,
+            ColorOptions = []
+        };
 
     private IList<CategoryDto> _categories = [];
 
@@ -111,18 +177,7 @@
 
     protected override void OnInitialized()
     {
-        _buttonType = Stuff is null ? "افزودن" : "ویرایش"; 
-
-        Stuff ??= new AddStuffRequest
-            {
-                Name = string.Empty,
-                CategoryId = 0,
-                BrandId = 0,
-                Stock = 0,
-                Price = 0,
-                Image = string.Empty,
-                ColorOptions = []
-            };
+        _buttonType = Stuff.CategoryId > 0 ? "ویرایش" : "افزودن";
 
         _brands = ProductService.Brands(new BrandPagination()).Value.Results;
 

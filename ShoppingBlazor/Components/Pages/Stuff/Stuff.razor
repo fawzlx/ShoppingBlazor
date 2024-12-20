@@ -28,17 +28,17 @@
         </MudItem>
         <MudItem xs="12" lg="3" md="6">
             <MudSelect MultiSelection="true"
-            Margin="Margin.Dense"
-            SelectAll="true"
-            SelectAllText="انتخاب همه"
-            ToStringFunc="group => group.Name"
-            @bind-SelectedValues="StuffPagination.Categories"
-            Variant="Variant.Outlined"
-            Label="دسته بندی"
-            Dense="true"
-            Placeholder="انتخاب دسته بندی"
-            Clearable="true">
-                @foreach (var category in Categories)
+                       Margin="Margin.Dense"
+                       SelectAll="true"
+                       SelectAllText="انتخاب همه"
+                       ToStringFunc="group => group.Name"
+                       @bind-SelectedValues="StuffPagination.Categories"
+                       Variant="Variant.Outlined"
+                       Label="دسته بندی"
+                       Dense="true"
+                       Placeholder="انتخاب دسته بندی"
+                       Clearable="true">
+                @foreach (var category in _categories)
                 {
                     <MudSelectItem Value="@category">@category.Name</MudSelectItem>
                 }
@@ -49,7 +49,12 @@
             <MudFab Size="Size.Small" StartIcon="@Icons.Material.Filled.SearchOff" Color="Color.Secondary" Label="نمایش همه" />
         </MudItem>
         <MudItem xs="12">
-            <MudTable ServerData="ReloadStuffs" Dense="true" Hover="true" Outlined="true" Striped="true" @ref="_stuffTable">
+            <MudTable ServerData="ReloadStuffs"
+                      Dense="true"
+                      Hover="true"
+                      Outlined="true"
+                      Striped="true"
+                      @ref="_stuffTable">
                 <HeaderContent>
                     <MudTh><MudTableSortLabel SortLabel="Id" T="StuffDto">شناسه</MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortLabel="Name" T="StuffDto">نام کالا</MudTableSortLabel></MudTh>
@@ -87,7 +92,7 @@
                     <MudTablePager PageSizeOptions="[10, 25, 50, 100]"
                                    RowsPerPageString="تعداد در صفحه:"
                                    InfoFormat="{first_item}-{last_item} از {all_items}"
-                                   HorizontalAlignment="HorizontalAlignment.Center"/>
+                                   HorizontalAlignment="HorizontalAlignment.Center" />
                 </PagerContent>
                 <FooterContent>
                     <MudTFootRow>
@@ -102,18 +107,16 @@
 
 @if (AddStuffState.ShowDialog)
 {
-    <StuffAddDialog
-    OnCancel="AddStuffState.Hide"
-    OnAdd="Add">
+    <StuffAddDialog OnCancel="AddStuffState.Hide"
+                    OnAdd="Add">
     </StuffAddDialog>
 }
 
 @if (EditStuffState.ShowDialog)
 {
-    <StuffEdit
-    Stuff="EditStuffState.Item"
-    OnCancel="EditStuffState.Hide"
-    OnEdit="Edit">
+    <StuffEdit Stuff="EditStuffState.Item"
+               OnCancel="EditStuffState.Hide"
+               OnEdit="Edit">
     </StuffEdit>
 }
 
@@ -141,7 +144,7 @@
 @code {
     private MudTable<StuffDto> _stuffTable;
 
-    public IList<CategoryDto> Categories { get; set; } = [];
+    private IList<CategoryDto> _categories { get; set; } = [];
 
     public required StuffPagination StuffPagination { get; set; } = new();
 
@@ -149,7 +152,7 @@
     {
         var categoryResult = ProductService.Categories(new CategoryPagination()).Value;
 
-        Categories = categoryResult.Results;
+        _categories = categoryResult.Results;
     }
 
     private async Task<TableData<StuffDto>> ReloadStuffs(TableState state, CancellationToken token)
@@ -157,7 +160,7 @@
         StuffPagination.Set(state);
 
         var stuffs = ProductService.Stuffs(StuffPagination).Value;
-        
+
         return new TableData<StuffDto>
             {
                 TotalItems = stuffs.Total,

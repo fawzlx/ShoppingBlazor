@@ -8,4 +8,9 @@ public static class CurrencyExtension
     {
         return price.ToString("C", new CultureInfo("fa-ir"));
     }
+
+    public static string ToRial(this int price)
+    {
+        return price.ToString("C", new CultureInfo("fa-ir"));
+    }
 }
